@@ -71,7 +71,6 @@ export default function CryptedOut({ cKey, value, type, plain }){
         }
         setCryptArr(resArr);
         resetMatrix(size);
-        console.log(matrix)
     }
 
     function OfN(temp){
