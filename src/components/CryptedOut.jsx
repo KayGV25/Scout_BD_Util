@@ -35,9 +35,9 @@ export default function CryptedOut({ cKey, value, type, plain }){
     function OfN(temp){
         let res=""
         for(let i = 0; i < temp.length; i++){
-            res += temp.charAt(i) + createRandomString(cKey)
+            if(temp.charAt(i) != " ") res += temp.charAt(i) + createRandomString(cKey)
         }
-        return res;
+        return res.toLocaleUpperCase();
     }
 
     function WtW(temp){
@@ -47,7 +47,7 @@ export default function CryptedOut({ cKey, value, type, plain }){
             if(temp.charAt(i) == ' ') res += " ";
             else res += String.fromCharCode(((temp.charCodeAt(i) - 'a'.charCodeAt(0) + shiftedValue) % 26) + 'a'.charCodeAt(0));
         }
-        return res;
+        return res.toLocaleUpperCase();
     }
 
     function WtN(temp){
