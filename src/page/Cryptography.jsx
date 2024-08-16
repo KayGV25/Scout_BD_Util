@@ -12,6 +12,7 @@ export default function Cryptography(){
             e.preventDefault();
         }
     };
+
     return(
         <>
             <div className="w-full flex justify-center mt-10">
@@ -28,7 +29,7 @@ export default function Cryptography(){
                             <option value="WtN">Số Thay Chữ</option>
                             <option value="R">Đảo Ngược</option>
                             <option value="OfN">Một Đổi N</option>
-                            {/* <option value="S">Xoáy</option> */}
+                            <option value="S">Xoáy</option>
                         </select>
                     </div>
                     {cryptType == "WtW" &&
@@ -83,6 +84,13 @@ export default function Cryptography(){
                         <div className="flex gap-3">
                             <label htmlFor="key" className="text-2xl text-zinc-50 select-none">Select key: </label>
                             <input type="number" name="key" className="text-center" min={1} onKeyDown={preventMinus} onChange={(e) => setKey(Number(e.target.value))}/>
+                        </div>
+                    }
+                    {
+                        cryptType == "S" && 
+                        <div className="flex gap-3">
+                            <label htmlFor="key" className="text-2xl text-zinc-50 select-none">Confirm: </label>
+                            <button className="bg-zinc-50 px-5 rounded-md hover:bg-zinc-400" onClick={() => setConfirm(true)}>GO</button>
                         </div>
                     }
                     <CryptedOut cKey={key} plain={plain} type={cryptType} value={value}/>
