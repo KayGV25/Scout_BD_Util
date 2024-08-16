@@ -52,9 +52,8 @@ export default function Morse(){
       }
     const [morse, setMorse] = useState("");
 
-    function handleInput(e){
-        var temp = e.target.value;
-        temp = handleVietNamese(temp.toLowerCase());
+    function handleInput(text){
+        var temp = handleVietNamese(text.toLowerCase());
         setMorse(() => {
             let res = ""
             for(let i = 0; i < temp.length; i++){
@@ -70,7 +69,7 @@ export default function Morse(){
                 <div className="w-3/4 flex flex-col gap-10">
                     <div className="flex flex-col gap-3">
                         <p className="text-2xl text-zinc-50 select-none">Text Input</p>
-                        <textarea type="text" name="inputMorse" className="outline-none rounded-sm px-3 text-slate-950 w-full h-36 resize-none py-3" onChange={(e) => handleInput(e)}></textarea>
+                        <textarea type="text" name="inputMorse" className="outline-none rounded-sm px-3 text-slate-950 w-full h-36 resize-none py-3" onChange={(e) => handleInput(e.target.value)}></textarea>
                     </div>
                     <div className="flex flex-col gap-3">
                         <p className="text-2xl text-zinc-50 select-none">Morse Output</p>
