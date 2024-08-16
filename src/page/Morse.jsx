@@ -69,7 +69,7 @@ export default function Morse(){
                 <div className="w-3/4 flex flex-col gap-10">
                     <div className="flex flex-col gap-3">
                         <p className="text-2xl text-zinc-50 select-none">Text Input</p>
-                        <textarea type="text" name="inputMorse" className="outline-none rounded-sm px-3 text-slate-950 w-full h-36 resize-none py-3" onChange={(e) => handleInput(e.target.value)}></textarea>
+                        <textarea autoFocus={true} type="text" name="inputMorse" className="outline-none rounded-sm px-3 text-slate-950 w-full h-36 resize-none py-3" onChange={(e) => handleInput(e.target.value)}></textarea>
                     </div>
                     <div className="flex flex-col gap-3">
                         <p className="text-2xl text-zinc-50 select-none">Morse Output</p>
