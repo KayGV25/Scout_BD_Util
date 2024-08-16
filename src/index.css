@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html{
+    scroll-behavior: smooth;
+    @apply bg-gray-900
+}
+
+.active{
+    @apply text-amber-400 font-bold relative pb-1
+}
+.active::after{
+    content: " ";
+    @apply w-full h-1.5 bg-amber-400 z-10 absolute bottom-0
+}
