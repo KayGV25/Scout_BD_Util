@@ -90,6 +90,7 @@ export default function CryptedOut({ cKey, value, type, plain }){
 
     function OfN(temp){
         let res=""
+        if(typeof(cKey) == "string") cKey = 1
         for(let i = 0; i < temp.length; i++){
             if(temp.charAt(i) != " ") res += temp.charAt(i) + createRandomString(cKey)
         }
@@ -108,7 +109,7 @@ export default function CryptedOut({ cKey, value, type, plain }){
 
     function WtN(temp){
         let res = ""
-        if(value == "a") value = 1
+        if(typeof(value) == "string") value = 1
         let shiftedValue = Math.abs((cKey.charCodeAt(0) - "a".charCodeAt(0) + 1) - Number(value))
         for(let i = 0; i < temp.length; i++){
             if(temp.charAt(i) == ' ') res += " ";
