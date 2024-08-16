@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { handleVietNameseNormal } from "../hooks/handleVietnamese";
 
 export default function CryptedOut({ cKey, value, type, plain }){
-    const matrix = Array.from({ length: 200 }, () => new Array(200).fill(" ")); // Create " " filled 2d array
+    let matrix = Array.from({ length: 200 }, () => new Array(200).fill(" ")); // Create " " filled 2d array
     const [crypt, setCrypt] = useState("");
     const [cryptArr, setCryptArr] = useState([])
     
@@ -27,15 +27,6 @@ export default function CryptedOut({ cKey, value, type, plain }){
 
         }
      }, [plain, cKey, type, value])
-
-    function createRandomString(length) {
-        const chars = "abcdefghijklmnopqrstuvwxyz";
-        let result = "";
-        for (let i = 0; i < length; i++) {
-          result += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return result;
-    }
 
     function S(temp){
         let size = findNearestSquareRoot(temp.length)
@@ -79,13 +70,8 @@ export default function CryptedOut({ cKey, value, type, plain }){
             tempArr = []
         }
         setCryptArr(resArr);
-    }
-
-    function findNearestSquareRoot(num){
-        for(let i = 0; i <= num; i++){
-            if(i*i >= num) return i;
-        }
-        return 0;
+        resetMatrix(size);
+        console.log(matrix)
     }
 
     function OfN(temp){
@@ -116,6 +102,30 @@ export default function CryptedOut({ cKey, value, type, plain }){
             else res += (((temp.charCodeAt(i) - 'a'.charCodeAt(0) + shiftedValue) % 26) + 1) + " / ";
         }
         return res;
+    }
+    
+    function findNearestSquareRoot(num){
+        for(let i = 0; i <= num; i++){
+            if(i*i >= num) return i;
+        }
+        return 0;
+    }
+    
+    function createRandomString(length) {
+        const chars = "abcdefghijklmnopqrstuvwxyz";
+        let result = "";
+        for (let i = 0; i < length; i++) {
+          result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    }
+
+    function resetMatrix(size){
+        for(let i=0; i<size; i++){
+            for(let j=0; j<size; j++){
+                matrix[i][j] = " "
+            }
+        }
     }
 
     return(
