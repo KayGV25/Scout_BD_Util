@@ -8,6 +8,7 @@ export default function CryptedOut({ cKey, value, type, plain }){
     let matrix = Array.from({ length: 200 }, () => new Array(200).fill(" ")); // Create " " filled 2d array
     const [crypt, setCrypt] = useState("");
     const [cryptArr, setCryptArr] = useState([])
+    const [cryptCB, setCryptCB] = useState([])
     
     useEffect(() => {
         var temp = handleVietNameseNormal(plain.toLowerCase());
@@ -27,7 +28,7 @@ export default function CryptedOut({ cKey, value, type, plain }){
             setCryptArr(S(temp.toLocaleUpperCase()));
         }
         if(type == "CB"){
-            setCryptArr(CB(temp))
+            setCryptCB(CB(temp))
         }
         if(type == "R"){
 
@@ -171,7 +172,7 @@ export default function CryptedOut({ cKey, value, type, plain }){
             <p className="text-2xl text-zinc-50 select-none">Crypted Output</p>
             <div className="outline-none bg-gray-50 rounded-sm px-3 text-slate-950 w-full h-36 py-3 overflow-y-scroll flex flex-wrap"> 
                 {
-                    cryptArr.map((char, key) => (
+                    cryptCB.map((char, key) => (
                         <span key={key}>{CBLookUp[Number(char)]}</span>
                     ))
                 }
