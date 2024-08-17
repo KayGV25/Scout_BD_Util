@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { handleVietNameseNormal } from "../hooks/handleVietnamese";
+import { LT, LTd, T, Td, RT, RTd, R, Rd, RB, RBd, B, Bd, LB, LBd, L, Ld, C, Cd, VT, VTd, VR, VRd, VB, VBd, VL, VLd } from "../svg/CB"
+
+const CBLookUp = [ <LT/>, <T/>, <RT/>, <L/>, <C/>, <R/>, <LB/>, <B/>, <RB/>, <LTd/>, <Td/>, <RTd/>, <Ld/>, <Cd/>, <Rd/>, <LBd/>, <Bd/>, <RBd/>, <VT/>, <VL/>, <VR/>, <VB/>, <VTd/>, <VLd/>, <VRd/>, <VBd/> ]
 
 export default function CryptedOut({ cKey, value, type, plain }){
     let matrix = Array.from({ length: 200 }, () => new Array(200).fill(" ")); // Create " " filled 2d array
@@ -21,12 +24,24 @@ export default function CryptedOut({ cKey, value, type, plain }){
             setCrypt(OfN(temp))
         }
         if(type == "S"){
-            setCrypt(S(temp.toLocaleUpperCase()));
+            setCryptArr(S(temp.toLocaleUpperCase()));
+        }
+        if(type == "CB"){
+            setCryptArr(CB(temp))
         }
         if(type == "R"){
 
         }
      }, [plain, cKey, type, value])
+
+
+    function CB(temp){
+        let res = []
+        for(let i = 0; i < temp.length; i++){
+            if(temp.charAt(i) != ' ') res.push(temp.charCodeAt(i) - 'a'.charCodeAt(0));
+        }
+        return res;
+    }
 
     function S(temp){
         let size = findNearestSquareRoot(temp.length)
@@ -69,8 +84,8 @@ export default function CryptedOut({ cKey, value, type, plain }){
             resArr.push(tempArr);
             tempArr = []
         }
-        setCryptArr(resArr);
         resetMatrix(size);
+        return resArr;
     }
 
     function OfN(temp){
@@ -127,40 +142,48 @@ export default function CryptedOut({ cKey, value, type, plain }){
         }
     }
 
-    return(
-        <>
-            {type != "S" &&
-                <div className="flex flex-col gap-3">
-                    <p className="text-2xl text-zinc-50 select-none">Crypted Output</p>
-                    <div className="outline-none bg-gray-50 rounded-sm px-3 text-slate-950 w-full h-36 py-3 overflow-y-scroll"> 
-                        {crypt}
-                    </div>
-                </div>
-            }
-            {type == "S" &&
-                <div className="flex flex-col gap-3">
-                    <p className="text-2xl text-zinc-50 select-none">Crypted Output</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-6 text-zinc-50">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                    </svg>
+    if(type == "S") return(
+        <div className="flex flex-col gap-3">
+            <p className="text-2xl text-zinc-50 select-none">Crypted Output</p>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-6 text-zinc-50">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+            </svg>
 
-                    <table className="bg-zinc-50 text-center border-2 first-line:first:font-bold">
-                        <tbody>
-                            {
-                            cryptArr.map((element, rowIndex) => (
-                                <tr key={rowIndex} className="border-2">
-                                {
-                                    element.map((char, colIndex) => (
-                                    <td key={colIndex} className="border-2">{char}</td>
-                                    ))
-                                }
-                                </tr>
+            <table className="bg-zinc-50 text-center border-2 first-line:first:font-bold">
+                <tbody>
+                    {
+                    cryptArr.map((element, rowIndex) => (
+                        <tr key={rowIndex} className="border-2">
+                        {
+                            element.map((char, colIndex) => (
+                            <td key={colIndex} className="border-2">{char}</td>
                             ))
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
-        </>
+                        }
+                        </tr>
+                    ))
+                    }
+                </tbody>
+            </table>
+        </div>
+    )
+    else if(type == "CB") return(
+        <div className="flex flex-col gap-3">
+            <p className="text-2xl text-zinc-50 select-none">Crypted Output</p>
+            <div className="outline-none bg-gray-50 rounded-sm px-3 text-slate-950 w-full h-36 py-3 overflow-y-scroll flex flex-wrap"> 
+                {
+                    cryptArr.map((char, key) => (
+                        <span key={key}>{CBLookUp[Number(char)]}</span>
+                    ))
+                }
+            </div>
+        </div>
+    )
+    else return(
+        <div className="flex flex-col gap-3">
+            <p className="text-2xl text-zinc-50 select-none">Crypted Output</p>
+            <div className="outline-none bg-gray-50 rounded-sm px-3 text-slate-950 w-full h-36 py-3 overflow-y-scroll"> 
+                {crypt}
+            </div>
+        </div>
     )
 }

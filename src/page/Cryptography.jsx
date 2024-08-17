@@ -30,6 +30,7 @@ export default function Cryptography(){
                             <option value="R">Đảo Ngược</option>
                             <option value="OfN">Một Đổi N</option>
                             <option value="S">Xoáy</option>
+                            <option value="CB">Chuồng bò</option>
                         </select>
                     </div>
                     {cryptType == "WtW" &&
