@@ -100,6 +100,7 @@ export default function CryptedOut({ cKey, value, type, plain }){
 
     function WtW(temp){
         let res = ""
+        if(typeof(cKey) != "string") cKey = "a";
         let shiftedValue = Math.abs(cKey.charCodeAt(0) - value.charCodeAt(0))
         for(let i = 0; i < temp.length; i++){
             if(temp.charAt(i) == ' ') res += " ";
@@ -110,6 +111,7 @@ export default function CryptedOut({ cKey, value, type, plain }){
 
     function WtN(temp){
         let res = ""
+        if(typeof(cKey) != "string") cKey = "a";
         if(typeof(value) == "string") value = 1
         let shiftedValue = Math.abs((cKey.charCodeAt(0) - "a".charCodeAt(0) + 1) - Number(value))
         for(let i = 0; i < temp.length; i++){
