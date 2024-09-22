@@ -53,7 +53,7 @@ export default function Morse(){
     const [morse, setMorse] = useState("");
 
     function handleInput(text){
-        var temp = handleVietNamese(text.toLowerCase());
+        var temp = handleVietNamese(text.toLocaleLowerCase());
         setMorse(() => {
             let res = ""
             for(let i = 0; i < temp.length; i++){
