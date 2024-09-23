@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import CryptedOut from "../components/CryptedOut";
 
 export default function Cryptography(){
@@ -12,6 +12,15 @@ export default function Cryptography(){
             e.preventDefault();
         }
     };
+    useEffect(() => {
+        if(cryptType == "WtW" && typeof(value) != "string"){
+            setValue("a");
+        }
+        else if (cryptType == "WtN" && typeof(value) == "string"){
+            setValue(1);
+        }
+        setKey("a")
+    }, [cryptType])
 
     return(
         <>
@@ -84,7 +93,7 @@ export default function Cryptography(){
                     {cryptType == "OfN" &&
                         <div className="flex gap-3">
                             <label htmlFor="key" className="text-2xl text-zinc-50 select-none">Select key: </label>
-                            <input type="number" name="key" className="text-center" min={1} onKeyDown={preventMinus} onChange={(e) => setKey(Number(e.target.value))}/>
+                            <input type="number" name="key" className="text-center" min={1} onKeyDown={preventMinus} onChange={(e) => setValue(Number(e.target.value))}/>
                         </div>
                     }
                     <CryptedOut cKey={key} plain={plain} type={cryptType} value={value}/>

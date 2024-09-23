@@ -91,9 +91,8 @@ export default function CryptedOut({ cKey, value, type, plain }){
 
     function OfN(temp){
         let res=""
-        if(typeof(cKey) == "string") cKey = 1
         for(let i = 0; i < temp.length; i++){
-            if(temp.charAt(i) != " ") res += temp.charAt(i) + createRandomString(cKey)
+            if(temp.charAt(i) != " ") res += temp.charAt(i) + createRandomString(value)
         }
         return res.toLocaleUpperCase();
     }
@@ -101,6 +100,7 @@ export default function CryptedOut({ cKey, value, type, plain }){
     function WtW(temp){
         let res = ""
         if(typeof(cKey) != "string") cKey = "a";
+        if(typeof(value) != "string") value = "a";
         let shiftedValue = Math.abs(cKey.charCodeAt(0) - value.charCodeAt(0))
         for(let i = 0; i < temp.length; i++){
             if(temp.charAt(i) == ' ') res += " ";
@@ -114,9 +114,10 @@ export default function CryptedOut({ cKey, value, type, plain }){
         if(typeof(cKey) != "string") cKey = "a";
         if(typeof(value) == "string") value = 1
         let shiftedValue = Math.abs((cKey.charCodeAt(0) - "a".charCodeAt(0) + 1) - Number(value))
+        console.log(shiftedValue)
         for(let i = 0; i < temp.length; i++){
             if(temp.charAt(i) == ' ') res += " ";
-            else res += (((temp.charCodeAt(i) - 'a'.charCodeAt(0) + shiftedValue) % 26) + 1) + " / ";
+            else res += (((temp.charCodeAt(i) - 'a'.charCodeAt(0) + 26 - shiftedValue + 1) % 26)) + " / ";
         }
         return res;
     }
