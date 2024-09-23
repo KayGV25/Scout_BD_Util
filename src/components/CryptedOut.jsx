@@ -19,7 +19,7 @@ export default function CryptedOut({ cKey, value, type, plain }){
             setCrypt(WtN(temp))
         }
         if(type == "R"){
-            setCrypt(temp.split('').reverse().join(''))
+            setCrypt(temp.toLocaleUpperCase().split('').reverse().join(''))
         }
         if(type == "OfN"){
             setCrypt(OfN(temp))
