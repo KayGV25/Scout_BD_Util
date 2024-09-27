@@ -30,11 +30,60 @@ export default function CryptedOut({ cKey, value, type, plain }){
         if(type == "CB"){
             setCryptCB(CB(temp))
         }
-        if(type == "R"){
+        if(type == "Cord"){
+            setCrypt(Cord(temp));
+        }
+        if(type == "Playfair"){
 
         }
-     }, [plain, cKey, type, value])
+    }, [plain, cKey, type, value])
 
+    function Cord(plainText){
+        const lookUpArray = generate2dLookupArrayForCord(handleVietNameseNormal(value.toLowerCase()))
+        let res = ""
+        let x,y;
+        for(let i = 0; i < plainText.length; i++){
+            if(plainText.charAt(i) != " "){
+                ({x,y} = (searchLookUpArray(plainText.charAt(i), lookUpArray)))
+                res = res + (x+1).toString() + (y+1).toString() + " "; 
+            }
+            else{
+                res += "/ "
+            }
+        }
+        return res;
+    }
+
+    function searchLookUpArray(char, array){
+        for(let x = 0; x < 5; x++){
+            for(let y = 0; y < 5; y++){
+                if(char == array[x][y]) return {x,y}
+            }
+        }
+        return {x: -1,y: -1}
+    }
+
+    function generate2dLookupArrayForCord(plainText){
+        if(typeof(plainText) != "string"){
+            return;
+        }
+        const letters = new Set(plainText.replaceAll(" ", ""));
+        const chars = "abcdefghijklmnopqrstuvwxyz";
+        let lettersItr = letters.values()
+        
+        for(let i = 0; i < 26; i++){
+            letters.add(chars[i])
+        }
+        
+        let lookUpArray = [];
+        for(let i = 0; i < 5; i++){
+            lookUpArray.push([])
+            for(let j = 0; j < 5; j++){
+                lookUpArray[i].push(lettersItr.next().value)
+            }
+        }
+        return lookUpArray;
+    }
 
     function CB(temp){
         let res = []

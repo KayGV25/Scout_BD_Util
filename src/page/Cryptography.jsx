@@ -19,6 +19,9 @@ export default function Cryptography(){
         else if (cryptType == "WtN" && typeof(value) == "string"){
             setValue(1);
         }
+        else if ((cryptType == "Cord" || cryptType == "Playfair") && typeof(value) != "string"){
+            setValue("");
+        }
         setKey("a")
     }, [cryptType])
 
@@ -35,6 +38,8 @@ export default function Cryptography(){
                         <select name="crypt" className="text-black rounded-md text-center" id="" onChange={(e) => {
                     setCryptType(e.target.value)}}>
                             <option value="WtW">Chữ Thay Chữ (Caesar)</option>
+                            <option value="Playfair">Playfair</option>
+                            <option value="Cord">Tọa độ</option>
                             <option value="WtN">Số Thay Chữ</option>
                             <option value="R">Đảo Ngược</option>
                             <option value="OfN">Một Đổi N</option>
@@ -94,6 +99,12 @@ export default function Cryptography(){
                         <div className="flex gap-3">
                             <label htmlFor="key" className="text-2xl text-zinc-50 select-none">Select key: </label>
                             <input type="number" name="key" className="text-center" min={1} onKeyDown={preventMinus} onChange={(e) => setValue(Number(e.target.value))}/>
+                        </div>
+                    }
+                    {(cryptType == "Cord" || cryptType == "Playfair") &&
+                        <div className="flex gap-3">
+                            <label htmlFor="key" className="text-2xl text-zinc-50 select-none">Enter key: </label>
+                            <input type="text" name="key" className="text-center" onChange={(e) => setValue(e.target.value)}/>
                         </div>
                     }
                     <CryptedOut cKey={key} plain={plain} type={cryptType} value={value}/>
