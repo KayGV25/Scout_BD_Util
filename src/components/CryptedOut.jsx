@@ -152,10 +152,6 @@ export default function CryptedOut({ cKey, value, type, plain }){
         if(typeof(cKey) !== "string") cKey = "a";
         if(typeof(value) !== "string") value = "a";
 
-        // IMPORTANT:
-        // a=k means k decrypts to a
-        // therefore encryption uses inverse shift
-
         const shift =
             cKey.charCodeAt(0) - value.charCodeAt(0);
 
@@ -182,43 +178,37 @@ export default function CryptedOut({ cKey, value, type, plain }){
     }
 
     function WtN(temp){
-        let res = [];
+        let res = "";
 
         if(typeof(cKey) !== "string") cKey = "a";
         if(typeof(value) !== "number") value = 1;
 
-        // key shift (a = 0, b = 1, ..., z = 25)
-        const keyShift = cKey.charCodeAt(0) - 'a'.charCodeAt(0);
-
-        // additional numeric shift
-        const totalShift = (keyShift + (value - 1)) % 26;
+        const shift = value - (cKey.charCodeAt(0) - 'a'.charCodeAt(0) + 1); 
 
         for(let i = 0; i < temp.length; i++){
             const char = temp.charAt(i);
 
             if(char === ' '){
-                res.push("/");
+                res += "/ ";
                 continue;
             }
 
-            // original position: 0-25
-            const alphabetIndex = char.charCodeAt(0) - 'a'.charCodeAt(0);
+            const index = char.charCodeAt(0) - 'a'.charCodeAt(0);
 
-            // shifted position: 0-25
-            const shiftedIndex = (alphabetIndex + totalShift) % 26;
+            const shifted = ((index + shift) % 26 + 26) % 26;
 
-            // convert to A1Z26: 1-26
-            if (i==0){
-                res.push(shiftedIndex + 1);
+            res += (shifted + 1);
+
+            if(i !== temp.length - 1 && temp.charAt(i + 1) !== ' '){
+                res += "-";
             } else {
-                res.push("-", shiftedIndex + 1);
+                res += " ";
             }
-                
         }
 
-        return res.join("");
+        return res.trim();
     }
-    
+
     function findNearestSquareRoot(num){
         for(let i = 0; i <= num; i++){
             if(i*i >= num) return i;
