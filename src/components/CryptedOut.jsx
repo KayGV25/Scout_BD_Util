@@ -216,7 +216,7 @@ export default function CryptedOut({ cKey, value, type, plain }){
                 
         }
 
-        return res.join(" ");
+        return res.join("");
     }
     
     function findNearestSquareRoot(num){
