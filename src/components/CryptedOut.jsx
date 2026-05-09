@@ -147,28 +147,71 @@ export default function CryptedOut({ cKey, value, type, plain }){
     }
 
     function WtW(temp){
-        let res = ""
-        if(typeof(cKey) != "string") cKey = "a";
-        if(typeof(value) != "string") value = "a";
-        let shiftedValue = Math.abs(cKey.charCodeAt(0) - value.charCodeAt(0))
+        let res = "";
+
+        if(typeof(cKey) !== "string") cKey = "a";
+        if(typeof(value) !== "string") value = "a";
+
+        // IMPORTANT:
+        // a=k means k decrypts to a
+        // therefore encryption uses inverse shift
+
+        const shift =
+            cKey.charCodeAt(0) - value.charCodeAt(0);
+
         for(let i = 0; i < temp.length; i++){
-            if(temp.charAt(i) == ' ') res += " ";
-            else res += String.fromCharCode(((temp.charCodeAt(i) - 'a'.charCodeAt(0) + shiftedValue) % 26) + 'a'.charCodeAt(0));
+            const char = temp.charAt(i);
+
+            if(char === ' '){
+                res += ' ';
+                continue;
+            }
+
+            const index =
+                char.charCodeAt(0) - 'a'.charCodeAt(0);
+
+            const shifted =
+                (index + shift + 26) % 26;
+
+            res += String.fromCharCode(
+                shifted + 'a'.charCodeAt(0)
+            );
         }
-        return res.toLocaleUpperCase();
+
+        return res.toUpperCase();
     }
 
     function WtN(temp){
-        let res = ""
-        if(typeof(cKey) != "string") cKey = "a";
-        if(typeof(value) == "string") value = 1
-        let shiftedValue = Math.abs((cKey.charCodeAt(0) - "a".charCodeAt(0) + 1) - Number(value))
-        console.log(shiftedValue)
+        let res = [];
+
+        if(typeof(cKey) !== "string") cKey = "a";
+        if(typeof(value) !== "number") value = 1;
+
+        // key shift (a = 0, b = 1, ..., z = 25)
+        const keyShift = cKey.charCodeAt(0) - 'a'.charCodeAt(0);
+
+        // additional numeric shift
+        const totalShift = (keyShift + (value - 1)) % 26;
+
         for(let i = 0; i < temp.length; i++){
-            if(temp.charAt(i) == ' ') res += " ";
-            else res += (((temp.charCodeAt(i) - 'a'.charCodeAt(0) + 26 - shiftedValue + 1) % 26)) + " / ";
+            const char = temp.charAt(i);
+
+            if(char === ' '){
+                res.push("/");
+                continue;
+            }
+
+            // original position: 0-25
+            const alphabetIndex = char.charCodeAt(0) - 'a'.charCodeAt(0);
+
+            // shifted position: 0-25
+            const shiftedIndex = (alphabetIndex + totalShift) % 26;
+
+            // convert to A1Z26: 1-26
+            res.push(shiftedIndex + 1);
         }
-        return res;
+
+        return res.join(" ");
     }
     
     function findNearestSquareRoot(num){
