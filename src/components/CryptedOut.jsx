@@ -208,7 +208,12 @@ export default function CryptedOut({ cKey, value, type, plain }){
             const shiftedIndex = (alphabetIndex + totalShift) % 26;
 
             // convert to A1Z26: 1-26
-            res.push(shiftedIndex + 1);
+            if (i==0){
+                res.push(shiftedIndex + 1);
+            } else {
+                res.push("-", shiftedIndex + 1);
+            }
+                
         }
 
         return res.join(" ");
